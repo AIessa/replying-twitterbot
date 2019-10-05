@@ -8,14 +8,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/AIessa/Twitterbot.git"
+    "url": "git+https://github.com/AIessa/replying-twitterbot.git"
   },
   "author": "Claudia A. Libbi",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/AIessa/Twitterbot/issues"
+    "url": "https://github.com/AIessa/replying-twitterbot/issues"
   },
-  "homepage": "https://github.com/AIessa/Twitterbot#readme",
+  "homepage": "https://github.com/AIessa/replying-twitterbot#readme",
   "dependencies": {
     "q": "^1.5.1",
     "request": "^2.88.0",
