@@ -1,0 +1,24 @@
+{
+  "name": "twitbot_package",
+  "version": "1.0.0",
+  "description": "Set up to run twitterbot",
+  "main": "bot.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AIessa/Twitterbot.git"
+  },
+  "author": "Claudia A. Libbi",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AIessa/Twitterbot/issues"
+  },
+  "homepage": "https://github.com/AIessa/Twitterbot#readme",
+  "dependencies": {
+    "q": "^1.5.1",
+    "request": "^2.88.0",
+    "twit": "^2.2.11"
+  }
+}
