@@ -32,17 +32,30 @@ function getGif(tweet_txt) {
     console.log(searchstring);
     
     //get url of gif for searchstring
-    gif.query(searchstring)
+    gif.random(searchstring)
         .then((response) => {
-            console.log(response);
-            response && (
-                downloadgif(response))})
+            //response && (
+            //    downloadgif(response))})
+            if(response !== undefined) {
+                console.log('defined gif');
+                downloadgif(response)
+                
+            } else {
+                console.log('undefined gif')
+                errorgif()
+            }
+        })
         .then(response2 => console.log(response2))
-        .catch(() => console.error('ERROR'))
-        .then(errorgif)
+//        .catch((e) => console.log(e))
+        .catch((e) => {
+        console.log('im here')
+            if(e !== undefined){
+                errorgif()
+            }
+        })
     
     function errorgif() {
-        gif.query('error').then(response => downloadgif(response)).then(response2 => console.log(response2)).catch(() => {console.error('ERROR')})
+        gif.random('error').then(response => downloadgif(response)).then(response2 => console.log(response2)).catch(() => {console.error('ERROR')})
     }
     
     //download gif
@@ -80,8 +93,8 @@ function getGif(tweet_txt) {
 //    }
 }
 
-//getGif('@person dhdhjoadjadsoöj');
-//getGif('@person dog');
+//getGif('@person dhdhjoadjadsoj');
+//getGif('@person should i go to school or to bed');
 
 //FUNCTION: UPLOAD GIF TO TWITTER -------------------------------------
 //multi-step chunked upload process, because single-step isn't supported for GIFs..
@@ -150,7 +163,7 @@ function tweetEvent(tweet) {
         
         console.log('setting timeout')
         //wait for gif download
-        //setTimeout(postTweetWithMedia(reply_txt), 5000)
+        setTimeout(postTweetWithMedia(reply_txt), 5000)
         
         postTweetWithMedia(reply_txt)
         
