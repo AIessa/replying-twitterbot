@@ -32,14 +32,20 @@ $ npm -v
 Go into the directory of the Twitterbot and run:
 
 $ npm install twit --save
+
 $ npm install keyword-extractor --save
+
 $ npm install gif-search --save
+
 $ npm install download-file --save
 
 
-(4) Lastly, you will need a Twitter developer account to use the Twitter API. Once you have this, you will be able to create a new app (the bot!) and get: consumer key, consumer secret, access token & access token secret. 
+(4) You will also need a Twitter developer account to use the Twitter API. Once you have this, you will be able to create a new app (the bot!) and get: consumer key, consumer secret, access token & access token secret. 
     
 Then just open the config.js file and edit these variables.
+
+
+(5) Lastly, open the bot.js file and edit the username variable. This will be your bot's name (without the '@'), but there are further instructions inside the script.
 
 
 
