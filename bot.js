@@ -99,8 +99,9 @@ function getGif(tweet_txt) {
 //FUNCTION: UPLOAD GIF TO TWITTER -------------------------------------
 //multi-step chunked upload process, because single-step isn't supported for GIFs..
 function postTweetWithMedia(additional_tweet_text) {
+    //getGif(additional_tweet_text)
 
-    var b64content = fs.readFileSync("./tweetreply.png", { encoding: 'base64' })
+    //var b64content = fs.readFileSync("./tweetreply.png", { encoding: 'base64' })
  
     //post gif on Twitter
     var filePath = './tweetreply.gif'
@@ -130,12 +131,23 @@ function postTweetWithMedia(additional_tweet_text) {
             console.log(data)
           })
         }
+        else {
+            console.log('something went wrong!')
+            T.post('statuses/update',{status:'Something went wrongggg ' + additional_tweet_text}, tweeted);
+            //function to catch errors
+            function tweeted(err, reply) {
+                if (err) {
+                  console.log(err.message);
+                } else {
+                  console.log('Reply sent!');
+                }
+            }
+            
+        }
       })
     })
   
-}
-
-    
+}    
 
 //Stream, tweet back whenever someone mentions me ---------------------
 
@@ -163,9 +175,9 @@ function tweetEvent(tweet) {
         
         console.log('setting timeout')
         //wait for gif download
-        setTimeout(postTweetWithMedia(reply_txt), 5000)
+        setTimeout(postTweetWithMedia, 5000, reply_txt)
         
-        postTweetWithMedia(reply_txt)
+        //postTweetWithMedia(reply_txt)
         
         //--------post answer
         //T.post('statuses/update', { status: reply_txt}, tweeted);
