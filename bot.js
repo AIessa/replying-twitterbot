@@ -1,23 +1,33 @@
-//start message to console
-console.log('Twitbot is starting');
+/*
+This is a replying twitter-bot!
+BEFORE running this, you must set the constant 'self_username' to your bot's username, but leave out the '@'!
+Then you can run this via: node bot.js
+*/
 
-//IMPORTS >> index.js
+//PLEASE SET THIS VARIABLE BEFORE STARTING. It's your bot's username (minus the @)!
+const self_username = '';
+
+
+
+//IMPORTS >> index.js--------------------------------------------------------
 var Twit = require('twit');
 var config = require('./config');
 var keyword_extractor = require('keyword-extractor');
-var giphy = require('giphy-api')();
 var download_file = require('download-file');
-var fs = require('fs');
 var gif = require('gif-search');
 
-
-
-//TWITTER OAUTH -------------------------------------------------------
+//TWITTER OAUTH -------------------------------------------------------------
 var T = new Twit(config);
 
 
 
-//FUNCTION: SEARCH AND DOWNLOAD GIF TO LOCAL --------------------------
+//start message to console---------------------------------------------------
+console.log('Twitbot is starting');
+
+
+
+
+//FUNCTION: SEARCH AND DOWNLOAD GIF TO LOCAL --------------------------------
 //(FYI: some cases might throw an error)
 function getGif(tweet_txt) {
     //get keywords
@@ -34,8 +44,6 @@ function getGif(tweet_txt) {
     //get url of gif for searchstring
     gif.random(searchstring)
         .then((response) => {
-            //response && (
-            //    downloadgif(response))})
             if(response !== undefined) {
                 console.log('defined gif');
                 downloadgif(response)
@@ -46,7 +54,6 @@ function getGif(tweet_txt) {
             }
         })
         .then(response2 => console.log(response2))
-//        .catch((e) => console.log(e))
         .catch((e) => {
         console.log('im here')
             if(e !== undefined){
@@ -66,42 +73,12 @@ function getGif(tweet_txt) {
         })
     }
         
-//    if (keywords.length == 0) { //exit strategy, question has no content!!!
-//        giphy.search({q:'what', rating: 'g'},function(error,gif){
-//            if (error) throw error;
-//            //get url
-//            var url = gif.data[0].images.preview_gif.url
-//            //download the gif
-//            download_file(url, {filename: "tweetreply.gif"}, function(error){
-//                if (error) throw error;
-//                else {console.log("exit gif downloaded!")}
-//            })
-//        })
-//    
-//    }
-//    else {
-//        giphy.translate({s:searchstring, rating:'g'}, function (error, gif) {
-//            if (error) throw error;
-//            //get url
-//            var url = gif.data.images.preview_gif.url
-//            //download the gif
-//            download_file(url, {filename: "tweetreply.gif"}, function(err){
-//                if (err) throw err;
-//                console.log("fitting gif downloaded!")
-//            })
-//        })
-//    }
 }
 
-//getGif('@person dhdhjoadjadsoj');
-//getGif('@person should i go to school or to bed');
 
-//FUNCTION: UPLOAD GIF TO TWITTER -------------------------------------
+//FUNCTION: UPLOAD GIF TO TWITTER -------------------------------------------
 //multi-step chunked upload process, because single-step isn't supported for GIFs..
 function postTweetWithMedia(additional_tweet_text) {
-    //getGif(additional_tweet_text)
-
-    //var b64content = fs.readFileSync("./tweetreply.png", { encoding: 'base64' })
  
     //post gif on Twitter
     var filePath = './tweetreply.gif'
@@ -112,14 +89,6 @@ function postTweetWithMedia(additional_tweet_text) {
         var meta_params = { media_id: mediaIdStr, alt_text: { text: altText } }
         
     console.log('Chunked media posted.')
-    
-//    // first we must post the media to Twitter
-//    T.post('media/upload', { media_data: b64content }, function (err, data, response) {
-//        // now we can assign alt text to the media, for use by screen readers and
-//        // other text-based presentations and interpreters
-//        var mediaIdStr = data.media_id_string
-//        var altText = "A stupid gif"
-//        var meta_params = { media_id: mediaIdStr, alt_text: { text: altText } }
  
     T.post('media/metadata/create', meta_params, function (err, data, response) {
         console.log('posting tweet..')
@@ -149,19 +118,22 @@ function postTweetWithMedia(additional_tweet_text) {
   
 }    
 
-//Stream, tweet back whenever someone mentions me ---------------------
+
+
+//Stream, tweet back whenever someone mentions me ---------------------------
 
 // Set up a user stream tracking mentions to username
-var stream = T.stream('statuses/filter', { track: '@ByDecided' });
+var stream = T.stream('statuses/filter', { track: '@'+self_username });
 
 // Now looking for tweet events
 stream.on('tweet', tweetEvent); //only replies if tweetEvent is a mention!
+
 
 function tweetEvent(tweet) {
     
     //Check tweet is replying to us/mentions us
     var reply_to = tweet.in_reply_to_screen_name;
-    if (reply_to === 'ByDecided') {
+    if (reply_to === self_username) {
         console.log('Someone mentioned me in a tweet!')
         
         //--------create answer:
@@ -170,26 +142,13 @@ function tweetEvent(tweet) {
         var tweet_id = tweet.id_str;
         var quote_tweet = 'https://twitter.com/'+screen_name+'/status/'+tweet_id; //url for quotation
         var reply_txt = '@' + screen_name + ' ' + quote_tweet;
+        
         //download appropriate gif
         getGif(tweet_txt)
         
+        //wait for gif download & post Tweet with media:
         console.log('setting timeout')
-        //wait for gif download
         setTimeout(postTweetWithMedia, 5000, reply_txt)
-        
-        //postTweetWithMedia(reply_txt)
-        
-        //--------post answer
-        //T.post('statuses/update', { status: reply_txt}, tweeted);
-        
-        //function to catch errors
-        function tweeted(err, reply) {
-            if (err) {
-              console.log(err.message);
-            } else {
-              console.log('Reply sent to: ' + screen_name);
-            }
-        }
             
     }
 }
