@@ -1,5 +1,6 @@
 
 
+# The twitterbot
 
 This is a Twitterbot built with NodeJs that replies to mentions with a GIF.
 
@@ -10,10 +11,11 @@ It uses the Twitter Streaming API and the Giphy API.
 (You will only need the Procfile if you want to deploy your bot to run by itself, e.g. using Heroku.)
 
 
+
 -------------------------
 
+# Set up & run the bot
 To run the bot, you need to install node js and a few modules:
-
 
 
 (1) First make sure you have node installed. In your terminal, run:
