@@ -1,7 +1,7 @@
 {
   "name": "twitbot_package",
   "version": "1.0.0",
-  "description": "Set up to run twitterbot",
+  "description": "replying twitterbot!",
   "main": "bot.js",
   "scripts": {
     "start": "node bot.js",
@@ -20,11 +20,7 @@
   "dependencies": {
     "download-file": "^0.1.5",
     "gif-search": "^2.1.0",
-    "giphy-api": "^2.0.1",
     "keyword-extractor": "0.0.17",
-    "q": "^1.5.1",
-    "request": "^2.88.0",
     "twit": "^2.2.11",
-    "twitter": "^1.7.1"
   }
 }
